@@ -56,6 +56,7 @@ git clone https://github.com/google/or-tools.git
 cd or-tools
 ```
 
+
 then, configure the build
 
 ```bash
@@ -100,7 +101,7 @@ sudo cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-Wno-error" -DCMAKE_
 
 This too will take more than an hour.
 
-![oproad](Images/oproad.png)
+![alt text](openrd_sta_verify.png)
 
 ---
 
@@ -112,7 +113,7 @@ Clone the [OpenROAD Flow Scripts repo](https://github.com/The-OpenROAD-Project/O
 git clone --recursive https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts
 cd OpenROAD-flow-scripts
 ```
-![flowscipts](Images/flowscripts.png)
+![alt text](flowscripts_openrd.png)
 
 Then to map the installed OpenROAD, and previously installed OpenSTA and Yosys, simply following the commands below,
 
@@ -142,7 +143,7 @@ To run floorplan of this module, follow the below commands
 make DESIGN_CONFIG=./designs/sky130hd/gcd/config.mk floorplan
 ```
 
-![floorplan](Images/floorplan.png)
+![alt text](floorplan.png)
 
 The die size and core utilization percentage are observed in the OpenROAD flow scripts, ensuring that the floorplan and placement adhere to the specified physical constraints.
 
@@ -152,7 +153,7 @@ And then, to view the gui,
 make DESIGN_CONFIG=./designs/sky130hd/gcd/config.mk gui_floorplan
 ```
 
-![floorplangui](Images/floorplangui.png)
+![alt text](gui1.png)
 
 ---
 
@@ -174,9 +175,8 @@ To view the placement in the GUI, run:
 make DESIGN_CONFIG=./designs/sky130hd/gcd/config.mk gui_place
 ```
 
-![placementgui](Images/placementgui.png)
 
-![skycells](Images/skycells.png)
+
 
 ---
 
