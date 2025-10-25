@@ -14,49 +14,170 @@ This lab focuses on using **OpenROAD Flow Scripts** to carry out the **Routing**
 
 ---
 
-## Routing of `gcd`
+## Importance of Floorplanning and Placement
 
-After completing **Floorplan** and **Placement**, the next stage is **Routing**, where signal connections between cells are physically established using metal layers.  
-Routing is typically divided into two major phases: **Global Routing** and **Detailed Routing**.
+**Floorplanning** is the process of defining the **physical layout of a chip** before placing standard cells. It involves:  
 
-Navigate to the `flow` directory inside `OpenROAD-flow-scripts` and execute the routing command as follows:
+- Allocating **die and core area**.  
+- Placing **I/O pads** around the die periphery.  
+- Arranging **macros** (like SRAM, PLLs) strategically.  
+- Dividing the core into **standard cell rows**.  
+- Designing a robust **power delivery network (PDN)**.  
+- Reserving areas for **physical-only cells** (tap cells, endcaps, blockages).  
 
-```bash
-make DESIGN_CONFIG=./designs/sky130hd/gcd/config.mk route
-```
+**Placement** is the step where **standard cells and small blocks** are arranged within the core area defined by floorplanning. The goals are:  
 
-This initiates both **Global** and **Detailed Routing**, ensuring all interconnections between placed cells are completed.
-
-To visualize the routing layout in GUI, use:
-```bash
-make DESIGN_CONFIG=./designs/sky130hd/gcd/config.mk gui_route
-```
----
-
-## Global and Detailed Routing
-
-- **Global Routing:** Divides the chip area into grids and finds approximate routes for all nets.  
-- **Detailed Routing:** Converts the global paths into exact wire geometries that follow DRC (Design Rule Check) constraints.
+- **Minimize wire length** between connected cells.  
+- **Reduce congestion** for easier routing.  
+- **Meet timing constraints** to ensure proper circuit operation.  
 
 ---
 
-## Static Timing Analysis (STA) of `gcd`
+## Installation of OpenROAD Flow
 
-Once routing is complete, **Static Timing Analysis (STA)** is performed to verify that the design meets timing requirements such as setup and hold times.
+Before setting up **OpenROAD Flow Scripts**, ensure the following requirements are met:
 
-To execute STA using **OpenROAD’s integrated OpenSTA**, run:
+- **Operating System:** Ubuntu 20.04 or later (preferably Ubuntu 22.04) [I'm using `Zorin OS` which is based on Ubuntu 22.04]
+- **Git:** Required for cloning repositories.
+- **Build Tools:** Includes CMake, GCC/G++, Make, and standard development libraries needed for compiling the flow.
+- **Python 3:** Version 3.6 or higher is recommended.
+- **EDA Tools:**
+  - **OpenROAD** – for placement and routing.
+  - **Yosys** – for logic synthesis.
+  - **OpenSTA** – for static timing analysis.
+
+
+### Installation of OpenROAD
+
+Firstly, `or-tools` needs to be installed,
+
 ```bash
-make DESIGN_CONFIG=./designs/sky130hd/gcd/config.mk sta
+git clone https://github.com/google/or-tools.git
+cd or-tools
 ```
-This command will generate timing reports for the post-route design.
 
-To open STA manually within the OpenROAD environment:
+then, configure the build
+
 ```bash
-openroad
-read_db ./results/sky130hd/gcd/routing/gcd.odb
-read_sdc ./designs/sky130hd/gcd/constraint.sdc
-report_checks -path_delay min_max
+cmake -S . -B build -DBUILD_DEPS=ON
 ```
+
+and install the `or-tools` using,
+
+```bash
+cmake --build build --config Release --target install -v
+```
+
+This will take an hour or more be warned.
+
+![ortools](Images/ortools.png)
+
+---
+
+Then to set OpenROAD up,
+
+- Clone the official **OpenROAD repository**.
+
+```bash
+git clone --recursive git clone https://github.com/The-OpenROAD-Project/OpenROAD.git
+cd OpenROAD
+```
+
+- Initialize and update its submodules to include all dependencies.
+
+```bash
+git submodule update --init --recursive
+```
+
+- Compile the source code to generate the OpenROAD binaries.
+
+```bash
+rm -rf build
+mkdir build
+cd build
+sudo cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-Wno-error" -DCMAKE_PREFIX_PATH="/usr/local" -DCMAKE_CXX_COMPILER=/usr/bin/g++-9
+```
+
+This too will take more than an hour.
+
+![oproad](Images/oproad.png)
+
+---
+
+### Installation of Flow Scripts
+
+Clone the [OpenROAD Flow Scripts repo](https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts) inside a folder of your choice
+
+```bash 
+git clone --recursive https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts
+cd OpenROAD-flow-scripts
+```
+![flowscipts](Images/flowscripts.png)
+
+Then to map the installed OpenROAD, and previously installed OpenSTA and Yosys, simply following the commands below,
+
+```bash
+export OPENROAD_EXE=/usr/local/bin/openroad
+export YOSYS_EXE=~/Documents/Apps/oss-cad-suite/bin/yosys
+export OPENSTA_EXE=/usr/local/bin/sta
+```
+
+> [!Tip]
+> Use `whereis` command to locate the binaries of OpenROAD, Yosys and OpenSTA
+
+
+With this OpenROAD and its script flow installation is complete.
+
+---
+
+## Floorplan of `gcd` 
+
+Navigate to the `flow` directory inside `OpenROAD-flow-scripts` 
+
+This is where the flow of our required module `gcd` will take place 
+
+To run floorplan of this module, follow the below commands 
+
+```bash
+make DESIGN_CONFIG=./designs/sky130hd/gcd/config.mk floorplan
+```
+
+![floorplan](Images/floorplan.png)
+
+The die size and core utilization percentage are observed in the OpenROAD flow scripts, ensuring that the floorplan and placement adhere to the specified physical constraints.
+
+And then, to view the gui,
+
+```bash
+make DESIGN_CONFIG=./designs/sky130hd/gcd/config.mk gui_floorplan
+```
+
+![floorplangui](Images/floorplangui.png)
+
+---
+
+## Placement of `gcd`
+
+To run placement for this module, use the following command:  
+
+```bash
+make DESIGN_CONFIG=./designs/sky130hd/gcd/config.mk place
+```  
+
+![placement](Images/placement.png)
+
+This will generate the placement for the module.  
+
+To view the placement in the GUI, run:  
+
+```bash
+make DESIGN_CONFIG=./designs/sky130hd/gcd/config.mk gui_place
+```
+
+![placementgui](Images/placementgui.png)
+
+![skycells](Images/skycells.png)
+
 ---
 
 ### STA Output Includes:
