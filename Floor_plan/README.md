@@ -10,7 +10,7 @@ This lab focuses on using **OpenROAD Flow Scripts** to carry out the **Routing**
 2. [Routing of `gcd`](#routing-of-gcd)  
    - [Global and Detailed Routing](#global-and-detailed-routing)  
 3. [Static Timing Analysis (STA) of `gcd`](#static-timing-analysis-sta-of-gcd)  
-4. [Summary](#summary-routing-and-static-timing-analysis-of-gcd-using-openroad-flow-scripts)  
+4. [Summary](#summary)  
 
 ---
 
