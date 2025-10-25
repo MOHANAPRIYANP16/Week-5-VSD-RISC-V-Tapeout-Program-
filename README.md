@@ -29,7 +29,7 @@
 
 ## OpenROAD
 
-- [**Floorplan and Placement**](Floorplan&Placement/README.md)
+- [**Floorplan and Placement**](https://github.com/MOHANAPRIYANP16/Week-5-VSD-RISC-V-Tapeout-Program-/tree/main/Floor_plan)
 
 ---
 
