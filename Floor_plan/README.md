@@ -69,9 +69,6 @@ and install the `or-tools` using,
 cmake --build build --config Release --target install -v
 ```
 
-This will take an hour or more be warned.
-
-![ortools](Images/ortools.png)
 
 ---
 
@@ -101,7 +98,9 @@ sudo cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-Wno-error" -DCMAKE_
 
 This too will take more than an hour.
 
-![alt text](openrd_sta_verify.png)
+
+![ortools](https://github.com/MOHANAPRIYANP16/Week-5-VSD-RISC-V-Tapeout-Program-/blob/main/Floor_plan/Images/openrd_sta_verify.png)
+
 
 ---
 
@@ -143,7 +142,7 @@ To run floorplan of this module, follow the below commands
 make DESIGN_CONFIG=./designs/sky130hd/gcd/config.mk floorplan
 ```
 
-![alt text](floorplan.png)
+![alt text](https://github.com/MOHANAPRIYANP16/Week-5-VSD-RISC-V-Tapeout-Program-/blob/main/Floor_plan/Images/floorplan.png)
 
 The die size and core utilization percentage are observed in the OpenROAD flow scripts, ensuring that the floorplan and placement adhere to the specified physical constraints.
 
@@ -153,7 +152,7 @@ And then, to view the gui,
 make DESIGN_CONFIG=./designs/sky130hd/gcd/config.mk gui_floorplan
 ```
 
-![alt text](gui1.png)
+![alt text](https://github.com/MOHANAPRIYANP16/Week-5-VSD-RISC-V-Tapeout-Program-/blob/main/Floor_plan/Images/gui1.png)
 
 ---
 
@@ -164,8 +163,6 @@ To run placement for this module, use the following command:
 ```bash
 make DESIGN_CONFIG=./designs/sky130hd/gcd/config.mk place
 ```  
-
-![placement](Images/placement.png)
 
 This will generate the placement for the module.  
 
