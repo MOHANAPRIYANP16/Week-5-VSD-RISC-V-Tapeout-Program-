@@ -209,6 +209,16 @@ make -j$(nproc)
 > [!Note]
 > This process may take more than an hour and will generate significant CPU load.
 
+To check it run:
+
+```bash
+cd ..
+openroad
+```
+see something like :
+
+![alt text](Images/openrd_sta_verify.png)
+
 ---
 
 ## ⚙️ Part 2: Building and Running OpenROAD Flow Scripts
