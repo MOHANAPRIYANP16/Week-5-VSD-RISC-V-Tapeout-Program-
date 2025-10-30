@@ -217,7 +217,7 @@ openroad
 ```
 see something like :
 
-![alt text](Images/openrd_sta_verify.png)
+![alt text](openroad_verify.png)
 
 ---
 
