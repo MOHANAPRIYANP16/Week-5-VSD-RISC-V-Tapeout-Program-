@@ -8,21 +8,9 @@ This lab focuses on using **OpenROAD Flow Scripts** to perform the **Routing** a
 ## 📑 Table of Contents
 
 1. [Introduction and Importance of Floorplanning and Placement](#introduction-and-importance-of-floorplanning-and-placement)  
-   - [Introduction](#introduction)  
-   - [Importance](#importance)  
 2. [Installation of OpenROAD Flow](#installation-of-openroad-flow)  
-   - [Essential OpenROAD Dependencies (for Ubuntu/Zorin OS)](#essential-openroad-dependencies-for-ubuntuzorin-os)  
 3. [Part 1: Installation of OpenROAD](#-part-1-installation-of-openroad)  
-   - Step 1: Install OR-Tools  
-   - Step 2: Clone and Set Up OpenROAD  
-   - Step 3: Build GTest (Required Dependency)  
-   - Step 4: Configure CMake Build  
-   - Step 5: Build OpenROAD  
 4. [Part 2: Building and Running OpenROAD Flow Scripts](#️-part-2-building-and-running-openroad-flow-scripts)  
-   - Step 1: Clone Flow Scripts Repository  
-   - Step 2: Install Dependencies  
-   - Step 3: Navigate to the Flow Folder  
-   - Step 4: Map Installed Tools  
 5. [Part 3: Floorplanning of GCD Design](#-part-3-floorplanning-gcd-design)  
 6. [Part 4: Placement of GCD Design](#part-4-placement-of-gcd)  
 7. [STA Output Includes ](#sta-output-includes)    
@@ -72,40 +60,9 @@ Before setting up **OpenROAD Flow Scripts**, ensure the following requirements a
 
 ### Essential OpenROAD Dependencies (for Ubuntu/Zorin OS)
 
-| Library / Package Name              | Purpose / Function                                                                 | Install Command                                                                 |
-|------------------------------------|------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
-| build-essential                    | Core compiler tools (gcc, g++, make)                                               | sudo apt install build-essential                                                |
-| cmake                              | Build system generator used by OpenROAD                                            | sudo apt install cmake                                                          |
-| git                                | Version control (to clone OpenROAD repositories)                                   | sudo apt install git                                                            |
-| python3-dev                        | Python integration and scripting support                                           | sudo apt install python3-dev                                                    |
-| python3-pip                        | Install Python packages for scripts                                                | sudo apt install python3-pip                                                    |
-| swig                               | Generates Python bindings for C/C++ code                                           | sudo apt install swig                                                           |
-| tcl-dev                            | TCL library development headers                                                    | sudo apt install tcl-dev                                                        |
-| libreadline-dev                    | Command-line editing and history support                                           | sudo apt install libreadline-dev                                                |
-| libboost-all-dev                   | Boost C++ libraries (used by several OpenROAD modules)                             | sudo apt install libboost-all-dev                                               |
-| libeigen3-dev                      | Matrix math library used in placement/optimization                                 | sudo apt install libeigen3-dev                                                  |
-| zlib1g-dev                         | Compression support (used internally by tools)                                     | sudo apt install zlib1g-dev                                                     |
-| flex                               | Lexical analyzer generator                                                         | sudo apt install flex                                                           |
-| bison                              | Parser generator (used in scripting parsers)                                       | sudo apt install bison                                                          |
-| libspdlog-dev                      | Fast C++ logging library                                                           | sudo apt install libspdlog-dev                                                  |
-| libtbb-dev                         | Intel Threading Building Blocks for parallelism                                    | sudo apt install libtbb-dev                                                     |
-| libyaml-cpp-dev                    | YAML parsing (used in configuration and reports)                                   | sudo apt install libyaml-cpp-dev                                                |
-| libcudd-dev                        | CUDD (Binary Decision Diagram library) for logic optimization                      | sudo apt install libcudd-dev                                                    |
-| qt5-default                        | Qt5 base development environment (for GUI)                                         | sudo apt install qt5-default                                                    |
-| qtbase5-dev                        | Core Qt5 components and headers                                                    | sudo apt install qtbase5-dev                                                    |
-| qttools5-dev-tools                 | Qt5 GUI build utilities (uic, moc, etc.)                                           | sudo apt install qttools5-dev-tools                                             |
-| qttools5-dev                       | Qt5 tools and modules                                                              | sudo apt install qttools5-dev                                                   |
-| libqt5opengl5-dev                  | OpenGL support for Qt5 GUI                                                         | sudo apt install libqt5opengl5-dev                                              |
-| libgsl-dev                         | GNU Scientific Library (for mathematical functions)                                | sudo apt install libgsl-dev                                                     |
-| libffi-dev                         | Foreign Function Interface (for scripting bindings)                                | sudo apt install libffi-dev                                                     |
-| libgoogle-perftools-dev            | Performance profiling (tcmalloc support)                                           | sudo apt install libgoogle-perftools-dev                                        |
-| libncurses5-dev libncursesw5-dev   | Terminal UI libraries for text-based interaction                                   | sudo apt install libncurses5-dev libncursesw5-dev                               |
-| libx11-dev libxrender-dev libxext-dev | X11 window system support (needed by GUI)                                         | sudo apt install libx11-dev libxrender-dev libxext-dev                          |
-| pkg-config                         | Helps CMake find installed libraries                                               | sudo apt install pkg-config                                                     |
-| ninja-build                        | Faster build system than make                                                     | sudo apt install ninja-build                                                    |
-| gdb                                | Debugger for C++ code                                                             | sudo apt install gdb                                                            |
-| clang-format                       | Auto-formatting C++ source code                                                   | sudo apt install clang-format                                                   |
-| valgrind                           | Memory leak analysis                                                              | sudo apt install valgrind                                                       |
+```bash
+sudo apt install build-essential cmake git python3-dev python3-pip swig tcl-dev libreadline-dev libboost-all-dev libeigen3-dev zlib1g-dev flex bison libspdlog-dev libtbb-dev libyaml-cpp-dev libcudd-dev qt5-default qtbase5-dev qttools5-dev-tools qttools5-dev libqt5opengl5-dev libgsl-dev libffi-dev libgoogle-perftools-dev libncurses5-dev libncursesw5-dev libx11-dev libxrender-dev libxext-dev pkg-config ninja-build gdb clang-format valgrind -y
+```
 
 
 
@@ -125,6 +82,7 @@ OpenROAD depends on Google’s OR-Tools for optimization tasks. Install it using
 ```bash
 git clone https://github.com/google/or-tools.git  
 cd or-tools  
+```
 
 Then, configure the build
 
@@ -149,6 +107,8 @@ git clone --recursive https://github.com/The-OpenROAD-Project/OpenROAD.git
 cd OpenROAD  
 git submodule update --init --recursive  
 ```
+
+![alt text](Images/gitclone_openroad.png)
 
 ---
 
@@ -217,7 +177,7 @@ openroad
 ```
 see something like :
 
-![alt text](openroad_verify.png)
+![alt text](https://github.com/MOHANAPRIYANP16/Week-5-VSD-RISC-V-Tapeout-Program-/blob/main/Floor_plan/Images/openroad_verify.png)
 
 ---
 
@@ -234,7 +194,7 @@ cd ~
 git clone --recursive https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts.git  
 ```
 
-![alt text](flowscripts_openrd.png)
+![alt text](https://github.com/MOHANAPRIYANP16/Week-5-VSD-RISC-V-Tapeout-Program-/blob/main/Floor_plan/Images/flowscripts_gitclone.png)
 
 > [!Note] The `--recursive` flag ensures that submodules like `tools/OpenROAD`, `tools/yosys`, and `tools/magic` are fetched automatically.  
 
@@ -298,14 +258,14 @@ Run the floorplan stage for the `gcd` design:
 ```bash
 make DESIGN_CONFIG=./designs/sky130hd/gcd/config.mk floorplan  
 ```
-![alt text](floor_plan_perfect.png)
+![alt text](https://github.com/MOHANAPRIYANP16/Week-5-VSD-RISC-V-Tapeout-Program-/blob/main/Floor_plan/Images/floor_plan_workflow.png)
 
 To visualize the floorplan in GUI:
 
 ```bash
 make DESIGN_CONFIG=./designs/sky130hd/gcd/config.mk gui_floorplan  
 ```
-![alt text](floorplan_guiperfect.png)
+![alt text](https://github.com/MOHANAPRIYANP16/Week-5-VSD-RISC-V-Tapeout-Program-/blob/main/Floor_plan/Images/floorplan_gui.png)
 
 The floorplan defines **core area**, **IO pin placement**, and **macro/block distribution**.
 
@@ -318,14 +278,14 @@ Run placement for the design:
 ```bash
 make DESIGN_CONFIG=./designs/sky130hd/gcd/config.mk place  
 ```
-![alt text](placement_openroadperfect.png)
+![alt text](https://github.com/MOHANAPRIYANP16/Week-5-VSD-RISC-V-Tapeout-Program-/blob/main/Floor_plan/Images/placement_openroad.png)
 
 To view placement in GUI:
 
 ```bash
 make DESIGN_CONFIG=./designs/sky130hd/gcd/config.mk gui_place  
 ```
-![alt text](place_guiperfect.png)
+![alt text](https://github.com/MOHANAPRIYANP16/Week-5-VSD-RISC-V-Tapeout-Program-/blob/main/Floor_plan/Images/place_gui.png)
 
 Placement ensures standard cells are positioned efficiently to minimize wirelength and timing delays.
 
